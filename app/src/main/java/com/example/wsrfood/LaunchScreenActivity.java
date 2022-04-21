@@ -44,7 +44,7 @@ public class LaunchScreenActivity extends AppCompatActivity {
                 int check = 0; // Проверка 0 отсутствия интернета
                 while (check != 3) { // Пока проверка не будет равна 3 т е пока не удасться подключится к серверу
                     try { // Задержка в 1 секунд
-                        Thread.sleep(2000);
+                        Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
