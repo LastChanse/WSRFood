@@ -4,18 +4,16 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/User/AndroidStudioProjects/WSRFood/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.124" />
-        <entry key="..\:/Users/User/AndroidStudioProjects/WSRFood/app/src/main/res/drawable/as.xml" value="0.2115" />
-        <entry key="..\:/Users/User/AndroidStudioProjects/WSRFood/app/src/main/res/drawable/clip.xml" value="0.1745" />
-        <entry key="..\:/Users/User/AndroidStudioProjects/WSRFood/app/src/main/res/drawable/launch_activity_load_ecllipse.xml" value="0.1745" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/WSRFood/app/src/main/res/drawable/clip.xml" value="0.1" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/WSRFood/app/src/main/res/drawable/launch_activity_load_eclipse.xml" value="0.1" />
         <entry key="..\:/Users/User/AndroidStudioProjects/WSRFood/app/src/main/res/drawable/launch_activity_progress_bar.xml" value="0.2115" />
         <entry key="..\:/Users/User/AndroidStudioProjects/WSRFood/app/src/main/res/layout/activity_launch_screen.xml" value="0.264" />
         <entry key="..\:/Users/User/AndroidStudioProjects/WSRFood/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/User/AndroidStudioProjects/WSRFood/app/src/main/res/layout/ic_launcher_foreground.xml" value="0.11302083333333333" />
         <entry key="..\:/Users/User/AndroidStudioProjects/WSRFood/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1375" />
         <entry key="..\:/Users/User/AndroidStudioProjects/WSRFood/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1375" />
-        <entry key="..\:/Users/User/AndroidStudioProjects/WSRFood/app/src/main/res/xml-mnc001/asd.xml" value="0.125" />
-        <entry key="..\:/Users/User/AndroidStudioProjects/WSRFood/app/src/main/res/xml/as.xml" value="0.16822916666666668" />
-        <entry key="..\:/Users/User/AndroidStudioProjects/WSRFood/app/src/main/res/xml/network_security_config.xml" value="0.16822916666666668" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/WSRFood/app/src/main/res/xml-mnc001/network_security_config.xml" value="0.1" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/WSRFood/app/src/main/res/xml/network_security_config.xml" value="0.10104166666666667" />
       </map>
     </option>
   </component>

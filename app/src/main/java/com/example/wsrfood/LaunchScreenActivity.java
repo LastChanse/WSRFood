@@ -1,32 +1,26 @@
 package com.example.wsrfood;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.IOException;
 
 public class LaunchScreenActivity extends AppCompatActivity {
 
@@ -50,7 +44,7 @@ public class LaunchScreenActivity extends AppCompatActivity {
                 int check = 0; // Проверка 0 отсутствия интернета
                 while (check != 3) { // Пока проверка не будет равна 3 т е пока не удасться подключится к серверу
                     try { // Задержка в 5 секунд
-                        Thread.sleep(1000);
+                        Thread.sleep(5000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -59,12 +53,10 @@ public class LaunchScreenActivity extends AppCompatActivity {
                             img.clearAnimation(); // Отключение анимации
                             check = 1; // Переход к проверке наличия интернета
                         }
-                        System.out.print("000000000000000000000000000000000");
                         // Если интернет есть, то попытаться подключится к серверку
                         try { // Попытка подключения к серверку
                             if (tryGetVersion()) {
                                 check = 3; // Если удалось подключится
-                                System.out.print("3333333333333333333333333333333");
                                 Intent intent = new Intent(LaunchScreenActivity.this, MainActivity.class);
                                 startActivity(intent);
                             }
@@ -78,7 +70,6 @@ public class LaunchScreenActivity extends AppCompatActivity {
                         }
                     }
                     while (check == 1) { // Проверка подключения к интернету
-                        System.out.print("111111111111111111111111111111111");
                         if (isOnline(LaunchScreenActivity.this)) {
                             img.startAnimation(animation); // Включение анимации
                             check = 0; // Переход к проверке отсутствия интернета
@@ -144,7 +135,8 @@ public class LaunchScreenActivity extends AppCompatActivity {
             public void Error(String errMsg, ResultAddress retRes) {
                 retRes.returnedResult = false; // Сервер вернул ошибку
                 retRes.returnedRequest = true; // Ответ получен
-                Toast.makeText(LaunchScreenActivity.this, "Ошибка подключения к серверу.", Toast.LENGTH_LONG).show();
+                Toast.makeText(LaunchScreenActivity.this, "Сервер не отвечает.", Toast.LENGTH_LONG).show();
+                Log.println(Log.ERROR, "INFO", errMsg);
             }
         };
         thread.start(); // Запуск потока
