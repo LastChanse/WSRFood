@@ -8,9 +8,9 @@
         android:width="35dp" />
 
     <gradient
-        android:centerColor="@color/progress_bar"
+        android:centerColor="@color/orange"
         android:centerY="0.17"
-        android:endColor="@color/progress_bar"
+        android:endColor="@color/orange"
         android:startColor="@color/no_color"
         android:type="sweep"
         android:useLevel="false" />

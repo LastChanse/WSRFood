@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
@@ -29,21 +30,19 @@ public class LaunchScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch_screen);
 
-        ActionBar actionBar = getSupportActionBar(); // Получаем текущую полосу действий
-        actionBar.hide(); // Прячем её
-
         ImageView img = findViewById(R.id.loading);
         // создаем анимацию
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.progresbar_animation);
         // запуск анимации
         img.startAnimation(animation);
+
         // Создаём поток для проверки сети интернет
         Thread thread = new Thread() { // Тело потока
             public void run() { // Выполнение задач потока
                 Thread.currentThread().setName("Check connection"); // Название потока
                 int check = 0; // Проверка 0 отсутствия интернета
                 while (check != 3) { // Пока проверка не будет равна 3 т е пока не удасться подключится к серверу
-                    try { // Задержка в 1 секунд
+                    try { // Задержка в 2 секунды
                         Thread.sleep(2000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -57,15 +56,10 @@ public class LaunchScreenActivity extends AppCompatActivity {
                         try { // Попытка подключения к серверку
                             if (tryGetVersion()) {
                                 check = 3; // Если удалось подключится
-                                Intent intent = new Intent(LaunchScreenActivity.this, MainActivity.class);
+                                Intent intent = new Intent(LaunchScreenActivity.this, OnBoardingScreenActivity.class);
                                 startActivity(intent);
                             }
                         } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        try { // Задержка в 1 секунду
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
                     }
@@ -105,7 +99,6 @@ public class LaunchScreenActivity extends AppCompatActivity {
 
                 ResultAddress retRes = new ResultAddress(); // Создан объект класса адреса результатов куда будут сохранены результаты
 
-                JSONObject json = new JSONObject();
                 String url = "https://food.madskill.ru/dishes/version";
 
                 RequestQueue requestQueue = Volley.newRequestQueue(LaunchScreenActivity.this);

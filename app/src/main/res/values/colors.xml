@@ -8,5 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="no_color">#00FFFFFF</color>
-    <color name="progress_bar">#FF240C</color>
+    <color name="no_white_25">#40FFFFFF</color>
+    <color name="orange">#FF240C</color>
+    <color name="background_on_boarding_screen">#FA4A0C</color>
 </resources>

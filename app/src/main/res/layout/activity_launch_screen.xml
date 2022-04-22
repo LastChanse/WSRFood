@@ -41,6 +41,33 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
+            android:id="@+id/imageView3"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:src="@drawable/logo_100"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+
+            android:layout_marginBottom="133dp"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:src="@drawable/text_wsr_food"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+
+            android:layout_marginBottom="85dp"/>
+
+
+        <ImageView
             android:id="@+id/loading"
 
             android:layout_width="40dp"
@@ -50,10 +77,11 @@
             android:src="@drawable/launch_activity_load_ecllipse"
             android:clipToOutline="true"
 
-            android:layout_marginBottom="18dp"
             app:layout_constraintBottom_toBottomOf="@+id/imageView2"
             app:layout_constraintEnd_toEndOf="@+id/imageView2"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+
+            android:layout_marginBottom="18dp"/>
 
         <!-- Шаблон загрузки
         <ProgressBar
