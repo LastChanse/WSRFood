@@ -6,6 +6,7 @@ import androidx.viewpager.widget.ViewPager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -21,10 +22,11 @@ public class OnBoardingScreenActivity extends AppCompatActivity {
     LinearLayout dotsLayout; // Точки
     SliderAdapter sliderAdapter; // Контент слайдера
     TextView[] dots; // Текст
-    Button letsGetStarted; // Кнопка на последнем слайде
+    Button SingIn; // Кнопка входа
+    Button SingUp; // Кнопка регистрации
     Animation animation; // Анимация для появления кнопок
     int currentPos; // Текущий слайд
-    boolean flag = false;
+    boolean flag = false; // Флаг определяющий порядок анимаций появления и исчезновения кнопок на последнем слайде
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +37,8 @@ public class OnBoardingScreenActivity extends AppCompatActivity {
         // Привязки
         viewPager = findViewById(R.id.slider); // Получаем объект слайдера
         dotsLayout = findViewById(R.id.dots); // Получаем объект точек
-        letsGetStarted = findViewById(R.id.get_started_btn); // Получаем объект последней кнопки
+        SingIn = findViewById(R.id.sign_in_btn); // Получаем объект кнопки входа
+        SingUp = findViewById(R.id.sign_up_btn); // Получаем объект кнопки регистрации
 
         // Подключаем данные для слайдера
         sliderAdapter = new SliderAdapter(this); // Создаём объект слайдера для текущего представления
@@ -46,13 +49,13 @@ public class OnBoardingScreenActivity extends AppCompatActivity {
         viewPager.addOnPageChangeListener(changeListener); // Задаём слушатель изменений страницы
     }
 
-    public void skip(View view) { // Если нажата кнопка пропустить, то переходим на другой экран
+    public void signIn(View view) { // Если нажата кнопка пропустить, то переходим на другой экран
         startActivity(new Intent(this, MainActivity.class));
         finish();
     }
 
-    public void next(View view) {
-        if (currentPos == 4) {
+    public void signUp(View view) {
+        if (currentPos == 1) {
             currentPos = 0;
         } else {
             currentPos++;
@@ -63,19 +66,25 @@ public class OnBoardingScreenActivity extends AppCompatActivity {
     // Процедура установки позиции точек
     private void addDots(int position) {
 
-        dots = new TextView[4]; // Создаём массив из 4х точек
+        dots = new TextView[2]; // Создаём массив из 2х точек
         dotsLayout.removeAllViews(); // Удаляем все точки на экране
 
         for (int i = 0; i < dots.length; i++) { // Проходимся по массиву точек и создаём их изображения
             dots[i] = new TextView(this);
             dots[i].setText(Html.fromHtml("&#8226;"));
-            dots[i].setTextSize(35);
+            dots[i].setTextSize(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, getResources().getDisplayMetrics()));
 
             dotsLayout.addView(dots[i]); // Добавляем их на экран
         }
 
         if (dots.length > 0) { // Если точки есть в массиве точек, то задаём им прозрачный цвет
-            dots[position].setTextColor(getResources().getColor(R.color.no_white_25));
+            for (int i = 0; i < dots.length; i++) {
+                if (i != position) {
+                    dots[i].setTextColor(getResources().getColor(R.color.white_alfa_0_25));
+                } else {
+                    dots[i].setTextColor(getResources().getColor(R.color.white));
+                }
+            }
         }
 
     }
@@ -91,21 +100,23 @@ public class OnBoardingScreenActivity extends AppCompatActivity {
             addDots(position);
             currentPos=position;
             if (position == 0) {
-                letsGetStarted.setVisibility(View.INVISIBLE);
-            } else if (position == 1) {
-                letsGetStarted.setVisibility(View.INVISIBLE);
-            } else if (position == 2) {
                 if (flag == true) {
-                    animation = AnimationUtils.loadAnimation(OnBoardingScreenActivity.this, R.anim.bottom_anim_reverce);
-                    letsGetStarted.setAnimation(animation);
+                    animation = AnimationUtils.loadAnimation(OnBoardingScreenActivity.this, R.anim.right_anim_reverce);
+                    SingUp.setAnimation(animation);
+                    animation = AnimationUtils.loadAnimation(OnBoardingScreenActivity.this, R.anim.left_anim_reverce);
+                    SingIn.setAnimation(animation);
                     flag = false;
                 }
-                letsGetStarted.setVisibility(View.INVISIBLE);
+                SingUp.setVisibility(View.INVISIBLE);
+                SingIn.setVisibility(View.INVISIBLE);
             } else {
                 flag = true;
-                animation = AnimationUtils.loadAnimation(OnBoardingScreenActivity.this, R.anim.bottom_anim);
-                letsGetStarted.setAnimation(animation);
-                letsGetStarted.setVisibility(View.VISIBLE);
+                animation = AnimationUtils.loadAnimation(OnBoardingScreenActivity.this, R.anim.right_anim);
+                SingUp.setAnimation(animation);
+                animation = AnimationUtils.loadAnimation(OnBoardingScreenActivity.this, R.anim.left_anim);
+                SingIn.setAnimation(animation);
+                SingUp.setVisibility(View.VISIBLE);
+                SingIn.setVisibility(View.VISIBLE);
             }
         }
 

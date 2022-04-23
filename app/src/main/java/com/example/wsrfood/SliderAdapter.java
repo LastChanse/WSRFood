@@ -22,23 +22,12 @@ public class SliderAdapter extends PagerAdapter {
 
     int images[] = {
             R.drawable.on_boarding_screen_image1,
-            R.drawable.logo_square,
-            R.drawable.logo_100,
-            R.drawable.on_boarding_screen_image1,
+            R.drawable.on_boarding_screen_image2,
     };
 
     int headings[] = {
-            R.string.first_slide_title,
-            R.string.second_slide_title,
-            R.string.third_slide_title,
-            R.string.fourth_slide_title,
-    };
-
-    int descriptions[] = {
-            R.string.first_slide_desc,
-            R.string.second_slide_desc,
-            R.string.third_slide_desc,
-            R.string.fourth_slide_desc,
+            R.string.on_boarding_screen_text1,
+            R.string.on_boarding_screen_text2,
     };
 
     @Override
@@ -61,12 +50,10 @@ public class SliderAdapter extends PagerAdapter {
         // Привязки
         ImageView imageView = view.findViewById(R.id.slider_image);
         TextView heading = view.findViewById(R.id.slider_heading);
-        TextView desc = view.findViewById(R.id.slider_desc);
 
         // Подстановка данных на экран по текущей позиции
         imageView.setImageResource(images[position]);
         heading.setText(headings[position]);
-        desc.setText(descriptions[position]);
 
         container.addView(view); // Добавляем экран в контейнер
 
