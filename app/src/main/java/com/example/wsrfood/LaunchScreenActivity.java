@@ -1,18 +1,19 @@
 package com.example.wsrfood;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
@@ -21,8 +22,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
+@SuppressLint("CustomSplashScreen")
 public class LaunchScreenActivity extends AppCompatActivity {
 
     @Override
@@ -30,10 +31,10 @@ public class LaunchScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch_screen);
 
-        ImageView img = findViewById(R.id.loading);
+        ImageView img = findViewById(R.id.loading); // Привязываемся к изображению загрузки на экране
         // создаем анимацию
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.progresbar_animation);
-        // запуск анимации
+        // запуск анимации для изображения загрузки
         img.startAnimation(animation);
 
         // Создаём поток для проверки сети интернет
@@ -42,94 +43,95 @@ public class LaunchScreenActivity extends AppCompatActivity {
                 Thread.currentThread().setName("Check connection"); // Название потока
                 int check = 0; // Проверка 0 отсутствия интернета
                 while (check != 3) { // Пока проверка не будет равна 3 т е пока не удасться подключится к серверу
-                    try { // Задержка в 2 секунды
-                        Thread.sleep(2000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
                     while (check == 0) { // Проверка отсутствия подключения к интернету
-                        if (!isOnline(LaunchScreenActivity.this)) {
+                        try {
+                            Thread.sleep(2000); // Задержка в 2 секунды
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        if (!isOnline(LaunchScreenActivity.this)) { // Если нет подключения к сети
                             img.clearAnimation(); // Отключение анимации
                             check = 1; // Переход к проверке наличия интернета
-                        }
-                        // Если интернет есть, то попытаться подключится к серверку
-                        try { // Попытка подключения к серверку
-                            if (tryGetVersion()) {
-                                check = 3; // Если удалось подключится
-                                Intent intent = new Intent(LaunchScreenActivity.this, OnBoardingScreenActivity.class);
-                                startActivity(intent);
+                            makeMessageOnScreen("Ошибка подключения к интернету");
+                        } else {
+                            // Если интернет есть, то попытаться подключится к серверку
+                            try { // Попытка подключения к серверку
+                                if (tryGetVersion()) { // Если удалось получить ответ
+                                    check = 3; // Выход из цикла
+
+                                    // Переход на приветственный экран
+                                    startActivity(new Intent(LaunchScreenActivity.this, OnBoardingScreenActivity.class));
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
                         }
                     }
                     while (check == 1) { // Проверка подключения к интернету
-                        if (isOnline(LaunchScreenActivity.this)) {
+                        if (isOnline(LaunchScreenActivity.this)) {  // Если есть подключение к сети
                             img.startAnimation(animation); // Включение анимации
                             check = 0; // Переход к проверке отсутствия интернета
                         }
                     }
                 }
             }
-            // Функция проверки подключения к интернету
+
+            // Функция проверки подключения к сети
             public boolean isOnline(Context context) {
                 ConnectivityManager cm =
-                        (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-                NetworkInfo netInfo = cm.getActiveNetworkInfo();
-                if (netInfo != null && netInfo.isConnectedOrConnecting()) {
-                    return true;
-                }
-                return false;
+                        (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE); // Создаём менеджер подключения записываем в него службы подключения
+                NetworkInfo netInfo = cm.getActiveNetworkInfo(); // Подключаем и записываем информацию о сети
+                if (netInfo != null && netInfo.isConnectedOrConnecting()) { // Если данные получены и есть подключение к сети
+                    Log.println(Log.INFO, "INFO", "Connection"); // Записываем в логи состояние сети
+                    return true; // Подключение к сети удалось
+                } // Иначе
+                Log.println(Log.INFO, "INFO", "Have not cnonnection"); // Записываем в логи состояние сети
+                return false; // Подключение к сети не удалось
             }
 
-            // ОПАМНЫЙ МАНЁВР!!!
-            // Создаём вспомогательный класс который будет выступать ссылкой на полученный результат
-            // Ссылку возможно использовать несколько раз, поэтому если 1 ответ от сервера будет удачный,
-            // а другой нет, то записан будет тот, который удачно попал под проверку получения ответа
-            // подобная лотерея не только тяжело фиксится при ошибках или изменениях, так ещё и делает
-            // программу не стабильной!!! Но иного способа не найдено на данный момент
-            class ResultAddress {
-                // Переменные для усовий
-                boolean returnedResult = false; // Получен результат запроса к серверу? (по умолчанию ответ не получен или были ошибки)
-                boolean returnedRequest = false; // Сервер ответил?
-            }
-
-            // Процедура подключения к серверу
+            // Функция подключения к серверу
             public boolean tryGetVersion() throws JSONException {
 
-                ResultAddress retRes = new ResultAddress(); // Создан объект класса адреса результатов куда будут сохранены результаты
+                final String[] resIs = {""}; // Переменная для хранения ответа от сервера
 
                 String url = "https://food.madskill.ru/dishes/version";
 
                 RequestQueue requestQueue = Volley.newRequestQueue(LaunchScreenActivity.this);
 
                 StringRequest request = new StringRequest(Request.Method.GET, url,
-                        result -> Result(result.toString(), retRes),
-                        error -> Error(error.getMessage(), retRes)
+                        result -> resIs[0] = result,
+                        error -> resIs[0] = error.getMessage()
                 ); // Инструкция по выполнению в случае ошибок или успешного получения ответа
                 requestQueue.add(request); // Отправка запроса
-
-                while (true) { // Пока сервер не ответит, ждать
-                    Log.println(Log.INFO, "INFO", "Try"); // Данная строка распугивает баги
-                    if (retRes.returnedRequest) { // Когда сервер ответил
-                        Log.println(Log.INFO, "INFO", "Succes"); // Данная строка тоже распугивает баги я не шучу!
-                        return retRes.returnedResult;
+                if (resIs[0].equals("") && resIs[0].substring(0,0).equals("j")) { // Когда сервер ответил или произошла ошибка
+                    makeMessageOnScreen("Ошибка подключения к серверу"); // Выводим сообщение на экран
+                }
+                    for (int i = 0; i < 10; i++) { // Пока сервер не ответит в течении 10 секунд
+                    Log.println(Log.INFO, "INFO", "Waiting request."); // Данная строка распугивает баги
+                    if (!resIs[0].equals("") && !resIs[0].substring(0,1).equals("j")) { // Когда сервер ответил без ошибок
+                        Log.println(Log.INFO, "INFO", resIs[0]); // Данная строка тоже распугивает баги я не шучу!
+                        return true; // Подключение успешно
+                    } else {
+                        try {
+                            Thread.sleep(1000); // Задержка в 1 секунда
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
-            }
-            // Процедура перехода к главному окну приложения если удалось подключится к серверу
-            public void Result(String result, ResultAddress retRes) {
-                Toast.makeText(LaunchScreenActivity.this, "Ответ от сервера получен.", Toast.LENGTH_LONG).show();
-                retRes.returnedResult = true; // Сервер вернул результат
-                retRes.returnedRequest = true; // Ответ получен
+                makeMessageOnScreen("Ошибка подключения к серверу"); // Выводим сообщение на экран
+                return false; // Если сервер не ответил, то отправляем новый запрос
             }
 
-            // Процедура завершения попытки получения запроса если сервер вернул ошибку или не удалось подключение
-            public void Error(String errMsg, ResultAddress retRes) {
-                retRes.returnedResult = false; // Сервер вернул ошибку
-                retRes.returnedRequest = true; // Ответ получен
-                Toast.makeText(LaunchScreenActivity.this, "Сервер не отвечает.", Toast.LENGTH_LONG).show();
-                Log.println(Log.ERROR, "INFO", errMsg);
+            // Процедура вывода сообщений на экран в основном потоке
+            private void makeMessageOnScreen(String msg) {
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast toast = Toast.makeText(LaunchScreenActivity.this, msg, Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
+                });
             }
         };
         thread.start(); // Запуск потока
