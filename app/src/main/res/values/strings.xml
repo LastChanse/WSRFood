@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">WSR Food</string>
+
+    <!-- Strings for On Boarding Screen -->
+
+    <!--Titles-->
+    <string name="on_boarding_screen_text1">Fastest Delivery\n24/7</string>
+    <string name="on_boarding_screen_text2"></string>
+
+    <!--Buttons-->
+    <string name="sign_in_btn">Sign In</string>
+    <string name="sign_up_btn">Sign Up</string>
+
 </resources>
