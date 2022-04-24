@@ -44,11 +44,6 @@ public class LaunchScreenActivity extends AppCompatActivity {
                 int check = 0; // Проверка 0 отсутствия интернета
                 while (check != 3) { // Пока проверка не будет равна 3 т е пока не удасться подключится к серверу
                     while (check == 0) { // Проверка отсутствия подключения к интернету
-                        try {
-                            Thread.sleep(2000); // Задержка в 2 секунды
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
                         if (!isOnline(LaunchScreenActivity.this)) { // Если нет подключения к сети
                             img.clearAnimation(); // Отключение анимации
                             check = 1; // Переход к проверке наличия интернета
