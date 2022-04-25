@@ -4,9 +4,13 @@ import androidx.annotation.AnimRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.WindowManager;
@@ -38,6 +42,9 @@ public class OnBoardingScreenActivity extends AppCompatActivity {
     // Кнопка регистрации
     Button SingUp;
 
+    // Кнопка входа как гость
+    Button Skip;
+
     // Анимация для появления кнопок
     Animation animation;
 
@@ -53,6 +60,7 @@ public class OnBoardingScreenActivity extends AppCompatActivity {
         dotsLayout = findViewById(R.id.dots); // Получаем объект точек
         SingIn = findViewById(R.id.sign_in_btn); // Получаем объект кнопки входа
         SingUp = findViewById(R.id.sign_up_btn); // Получаем объект кнопки регистрации
+        Skip = findViewById(R.id.skip_bth); // Получаем объект кнопки входа как гость
 
         // Подключаем данные для слайдера
         sliderAdapter = new SliderAdapter(this); // Создаём объект слайдера для текущего представления
@@ -69,6 +77,10 @@ public class OnBoardingScreenActivity extends AppCompatActivity {
 
     public void signUp(View view) { // Если нажата кнопка пропустить, то
         startActivity(new Intent(this, MainActivity.class)); // переходим на экран регистрации
+    }
+
+    public void skip(View view) { // Если нажата кнопка входа как гость
+        startActivity(new Intent(this, MainActivity.class)); // переходим на главный экран в качестве гостя
     }
 
     // Процедура установки позиции точек
@@ -119,6 +131,19 @@ public class OnBoardingScreenActivity extends AppCompatActivity {
         btn.setVisibility(View.INVISIBLE); // Делаем кнопку не видимой
     }
 
+    // Функция проверки подключения к сети
+    public boolean isOnline(Context context) {
+        ConnectivityManager cm =
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE); // Создаём менеджер подключения записываем в него службы подключения
+        NetworkInfo netInfo = cm.getActiveNetworkInfo(); // Подключаем и записываем информацию о сети
+        if (netInfo != null && netInfo.isConnectedOrConnecting()) { // Если данные получены и есть подключение к сети
+            Log.println(Log.INFO, "INFO", "Connection"); // Записываем в логи состояние сети
+            return true; // Подключение к сети удалось
+        } // Иначе
+        Log.println(Log.INFO, "INFO", "Have not cnonnection"); // Записываем в логи состояние сети
+        return false; // Подключение к сети не удалось
+    }
+
     ViewPager.OnPageChangeListener changeListener = new ViewPager.OnPageChangeListener() { // Если страница изменилась
 
         // Если страница слайда прокручена (пролучает позицию с которой начинается прокрутка, степень прокрутки, степень прокрутки в пикселях)
@@ -131,9 +156,13 @@ public class OnBoardingScreenActivity extends AppCompatActivity {
             if (position == 0) { // Если выбран первый слайд
                 hideButton(SingIn, R.anim.left_anim_reverce); // Убираем кнопку входа
                 hideButton(SingUp, R.anim.right_anim_reverce); // Убираем кнопку регистрации
+                hideButton(Skip, R.anim.bottom_anim_reverce); // Убираем кнопку входа как гость
             } else { // Если выбран другой слайд
                 showButton(SingIn, R.anim.left_anim); // Добавляем кнопку входа
                 showButton(SingUp, R.anim.right_anim); // Добавляем кнопку регистрации
+                if (!isOnline(OnBoardingScreenActivity.this)) {
+                    showButton(Skip, R.anim.bottom_anim); // Добавляем кнопку входа как гость
+                }
             }
         }
 

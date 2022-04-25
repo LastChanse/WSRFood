@@ -8,7 +8,8 @@
     <string name="on_boarding_screen_text2"></string>
 
     <!--Buttons-->
-    <string name="sign_in_btn">Sign In</string>
+    <string name="sign_in_btn">Sign In</string>Skip Authorization
     <string name="sign_up_btn">Sign Up</string>
+    <string name="skip_btn">Skip Authorization</string>
 
 </resources>
