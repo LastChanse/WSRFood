@@ -11,9 +11,13 @@
     <string name="sign_in_btn">Sign In</string>Skip Authorization
     <string name="sign_up_btn">Sign Up</string>
     <string name="skip_btn">Skip Authorization</string>
-    <string name="login">Login</string>
+    <string name="login_bth">Login</string>
     <string name="forgot_password">Forgot password?</string>
     <string name="password">Password</string>
     <string name="email">E-mail</string>
+    <string name="full_name">Full name</string>
+    <string name="phone">Phone number</string>
+    <string name="register_bth">Register Now</string>
+    <string name="cancel_bth">Cancel</string>
 
 </resources>

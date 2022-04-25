@@ -4,6 +4,164 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/light_gray"
     tools:context=".SignUpScreenActivity">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="-30dp"
+        android:background="@drawable/button_background"
+        android:paddingStart="105dp"
+        android:paddingTop="35dp"
+        android:paddingEnd="105dp"
+        android:paddingBottom="21dp"
+        android:layout_marginBottom="8dp"
+        android:src="@drawable/logo_100"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="23dp"
+        android:fontFamily="@font/nunito_bold"
+        android:text="@string/email"
+        android:textColor="@color/black_opacity_40"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@+id/new_email"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/new_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_marginLeft="23dp"
+        android:layout_marginRight="22dp"
+        android:layout_marginBottom="37dp"
+        android:fontFamily="@font/nunito_bold"
+
+        android:hint="deliver@mail.ru"
+        android:inputType="textEmailAddress"
+        android:textSize="17dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView2"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="23dp"
+        android:fontFamily="@font/nunito_bold"
+        android:text="@string/password"
+        android:textColor="@color/black_opacity_40"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@+id/new_password"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/new_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_marginLeft="23dp"
+        android:layout_marginRight="22dp"
+        android:layout_marginBottom="37dp"
+        android:fontFamily="@font/nunito_bold"
+        android:hint="* * * * * * * * "
+        android:inputType="textPassword"
+        android:textSize="17dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView3" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="23dp"
+        android:fontFamily="@font/nunito_bold"
+        android:text="@string/full_name"
+        android:textColor="@color/black_opacity_40"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@+id/full_name"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/full_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_marginLeft="23dp"
+        android:layout_marginRight="22dp"
+        android:layout_marginBottom="37dp"
+        android:fontFamily="@font/nunito_bold"
+        android:hint="Olivie Berlusco"
+        android:inputType="textPersonName"
+        android:textSize="17dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView4" />
+    <TextView
+    android:id="@+id/textView4"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="23dp"
+    android:fontFamily="@font/nunito_bold"
+    android:text="@string/phone"
+    android:textColor="@color/black_opacity_40"
+    android:textSize="15sp"
+    app:layout_constraintBottom_toTopOf="@+id/phone"
+    app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_marginLeft="23dp"
+        android:layout_marginRight="22dp"
+        android:layout_marginBottom="47dp"
+        android:fontFamily="@font/nunito_bold"
+        android:hint="+7 (963) 444-12-23"
+        android:inputType="phone"
+        android:textSize="17dp"
+        app:layout_constraintBottom_toTopOf="@+id/register" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/register"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginLeft="22dp"
+        android:layout_marginRight="22dp"
+        android:background="@drawable/button_background_orange"
+        android:fontFamily="@font/nunito_bold"
+        android:onClick="register"
+        android:text="@string/register_bth"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="17sp"
+        app:layout_constraintBottom_toTopOf="@+id/cancel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="17dp"/>
+
+
+<androidx.appcompat.widget.AppCompatButton
+android:background="@drawable/button_background_orange"
+android:fontFamily="@font/nunito_bold"
+android:id="@+id/cancel"
+android:layout_height="70dp"
+android:layout_marginBottom="32dp"
+android:layout_marginLeft="22dp"
+android:layout_marginRight="22dp"
+android:layout_width="match_parent"
+android:onClick="cancel"
+android:text="@string/cancel_bth"
+android:textAllCaps="false"
+android:textColor="@color/white"
+android:textSize="17sp"
+app:layout_constraintBottom_toBottomOf="parent"
+app:layout_constraintEnd_toEndOf="parent"
+app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

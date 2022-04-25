@@ -40,14 +40,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
-        android:fontFamily="@font/nunito_bold"
-        android:hint="deliver@mail.ru"
-        android:inputType="textEmailAddress"
-        android:textSize="17dp"
-
         android:layout_marginLeft="23dp"
         android:layout_marginRight="22dp"
         android:layout_marginBottom="37dp"
+        android:fontFamily="@font/nunito_bold"
+
+        android:hint="deliver@mail.ru"
+        android:inputType="textEmailAddress"
+        android:textSize="17dp"
         app:layout_constraintBottom_toTopOf="@+id/textView2"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -68,14 +68,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
-        android:inputType="textPassword"
-        android:hint="* * * * * * * * "
-        android:fontFamily="@font/nunito_bold"
-        android:textSize="17dp"
         android:layout_marginLeft="23dp"
         android:layout_marginRight="22dp"
-        app:layout_constraintBottom_toTopOf="@+id/fogot_password"
-        android:layout_marginBottom="53dp"/>
+        android:layout_marginBottom="53dp"
+        android:fontFamily="@font/nunito_bold"
+        android:hint="* * * * * * * * "
+        android:inputType="textPassword"
+        android:textSize="17dp"
+        app:layout_constraintBottom_toTopOf="@+id/fogot_password" />
 
     <TextView
         android:id="@+id/fogot_password"
@@ -99,8 +99,8 @@
         android:layout_marginBottom="32dp"
         android:background="@drawable/button_background_orange"
         android:fontFamily="@font/nunito_bold"
-        android:onClick="Login"
-        android:text="@string/login"
+        android:onClick="login"
+        android:text="@string/login_bth"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="17sp"

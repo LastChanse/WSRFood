@@ -44,7 +44,7 @@ public class SignInScreenActivity extends AppCompatActivity {
         });
     }
 
-    public void Login(View view) { // Если нажали на кнопку Вход
+    public void login(View view) { // Если нажали на кнопку Вход
         if (Email.getText().toString().isEmpty() || Password.getText().toString().isEmpty()) {
             сreateDialog(this, "Все проя должны быть заполнены.");
         } else {
@@ -72,8 +72,10 @@ public class SignInScreenActivity extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, baseUrl, json,
-                response -> startActivity(new Intent(this, MainActivity.class)),
-                error -> сreateDialog(this,"Не удалось авторизироваться:\n"+error.getMessage()));
+                response -> {
+                    startActivity(new Intent(this, MainActivity.class));
+                },
+                error -> сreateDialog(this, "Не удалось авторизироваться:\n" + error.getMessage()));
         requestQueue.add(request);
     }
 
@@ -94,7 +96,7 @@ public class SignInScreenActivity extends AppCompatActivity {
                 .setTitle("Error") // Заголовок
                 .setMessage(msg) // Текст ошибки
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() { // Кнопка согласия
-                    public void onClick(DialogInterface dialog, int id){
+                    public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel(); // Отмена диалогового окна
                     }
                 });
