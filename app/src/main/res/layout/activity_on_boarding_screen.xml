@@ -24,8 +24,10 @@
         android:layout_height="69dp"
         android:background="@drawable/button_background"
         android:onClick="signIn"
-        android:padding="10dp"
         android:text="@string/sign_in_btn"
+        android:textAllCaps="false"
+        android:fontFamily="@font/italianno"
+        android:textSize="24sp"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/slider"
         app:layout_constraintStart_toStartOf="parent" />
@@ -37,6 +39,9 @@
         android:background="@drawable/button_background"
         android:onClick="signUp"
         android:text="@string/sign_up_btn"
+        android:textAllCaps="false"
+        android:fontFamily="@font/italianno"
+        android:textSize="24sp"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/slider"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -73,6 +78,7 @@
             android:fontFamily="@font/nunito_bold"
             android:onClick="skip"
             android:text="@string/skip_btn"
+            android:textAllCaps="false"
             android:visibility="invisible" />
 
 
