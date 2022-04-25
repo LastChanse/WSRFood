@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_on_boarding_screen"
+    android:background="@color/orange_background"
     tools:context=".OnBoardingScreenActivity">
 
     <androidx.viewpager.widget.ViewPager
@@ -23,10 +23,10 @@
         android:layout_width="157dp"
         android:layout_height="69dp"
         android:background="@drawable/button_background"
+        android:fontFamily="@font/italianno"
         android:onClick="signIn"
         android:text="@string/sign_in_btn"
         android:textAllCaps="false"
-        android:fontFamily="@font/italianno"
         android:textSize="24sp"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/slider"
@@ -37,10 +37,10 @@
         android:layout_width="157dp"
         android:layout_height="69dp"
         android:background="@drawable/button_background"
+        android:fontFamily="@font/italianno"
         android:onClick="signUp"
         android:text="@string/sign_up_btn"
         android:textAllCaps="false"
-        android:fontFamily="@font/italianno"
         android:textSize="24sp"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/slider"

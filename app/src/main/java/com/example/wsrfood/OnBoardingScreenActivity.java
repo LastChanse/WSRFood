@@ -72,11 +72,11 @@ public class OnBoardingScreenActivity extends AppCompatActivity {
     }
 
     public void signIn(View view) { // Если нажата кнопка пропустить, то
-        startActivity(new Intent(this, MainActivity.class)); // переходим на экран входа
+        startActivity(new Intent(this, SignInScreenActivity.class)); // переходим на экран входа
     }
 
     public void signUp(View view) { // Если нажата кнопка пропустить, то
-        startActivity(new Intent(this, MainActivity.class)); // переходим на экран регистрации
+        startActivity(new Intent(this, SignUpScreenActivity.class)); // переходим на экран регистрации
     }
 
     public void skip(View view) { // Если нажата кнопка входа как гость
@@ -103,7 +103,7 @@ public class OnBoardingScreenActivity extends AppCompatActivity {
             for (int i = 0; i < dots.length; i++) { // проходимся по всем точкам в массива
                 if (i != position) { // Если текущая точка не совпадает с позицией слайда, то
                     // Задаём цвет точки как непрозрачный на 25% белый
-                    dots[i].setTextColor(getResources().getColor(R.color.white_alfa_0_25));
+                    dots[i].setTextColor(getResources().getColor(R.color.white_opacity_25));
                 } else { // Иначе
                     // Задаём цвет точки как белый
                     dots[i].setTextColor(getResources().getColor(R.color.white));
