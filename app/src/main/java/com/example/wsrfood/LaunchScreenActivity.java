@@ -26,6 +26,8 @@ import org.json.JSONException;
 @SuppressLint("CustomSplashScreen")
 public class LaunchScreenActivity extends AppCompatActivity {
 
+    public final String[] resIs = {""}; // Переменная для хранения ответа от сервера
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,8 +88,6 @@ public class LaunchScreenActivity extends AppCompatActivity {
 
             // Функция подключения к серверу
             public boolean tryGetVersion() throws JSONException {
-
-                final String[] resIs = {""}; // Переменная для хранения ответа от сервера
 
                 String url = "https://food.madskill.ru/dishes/version";
 

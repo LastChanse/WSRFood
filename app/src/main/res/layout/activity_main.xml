@@ -170,7 +170,18 @@
 
     </RadioGroup>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
 
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/daily_weekly_button_view"></androidx.recyclerview.widget.RecyclerView>
 
     <!--<SearchView
         android:id="@+id/searchView"
