@@ -13,4 +13,6 @@
     <color name="orange">#FF240C</color>
     <color name="orange_background">#FA4A0C</color>
     <color name="light_gray">#EAEAEA</color>
+    <color name="main_background">#F2F2F2</color>
+    <color name="main_text">#9A9A9D</color>
 </resources>

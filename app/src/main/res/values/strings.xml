@@ -19,5 +19,6 @@
     <string name="phone">Phone number</string>
     <string name="register_bth">Register Now</string>
     <string name="cancel_bth">Cancel</string>
+    <string name="search_hint">Search</string>
 
 </resources>

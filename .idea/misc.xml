@@ -10,12 +10,17 @@
         <entry key="..\:/Users/User/AndroidStudioProjects/WSRFood/app/src/main/res/drawable/launch_activity_load_eclipse.xml" value="0.1" />
         <entry key="..\:/Users/User/AndroidStudioProjects/WSRFood/app/src/main/res/drawable/launch_activity_load_ecllipse.xml" value="0.1745" />
         <entry key="..\:/Users/User/AndroidStudioProjects/WSRFood/app/src/main/res/drawable/launch_activity_progress_bar.xml" value="0.2115" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/WSRFood/app/src/main/res/drawable/main_activity_radio_button.xml" value="0.2425" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/WSRFood/app/src/main/res/drawable/main_activity_radio_button_background.xml" value="0.233" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/WSRFood/app/src/main/res/drawable/main_activity_radio_button_is_not_selected.xml" value="0.233" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/WSRFood/app/src/main/res/drawable/main_activity_radio_button_selected.xml" value="0.233" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/WSRFood/app/src/main/res/drawable/main_activity_radio_button_text_color.xml" value="0.233" />
         <entry key="..\:/Users/User/AndroidStudioProjects/WSRFood/app/src/main/res/drawable/slides_layout.xml" value="0.131" />
         <entry key="..\:/Users/User/AndroidStudioProjects/WSRFood/app/src/main/res/layout-w1240dp/activity_login.xml" value="0.1" />
         <entry key="..\:/Users/User/AndroidStudioProjects/WSRFood/app/src/main/res/layout-w936dp/activity_login.xml" value="0.1" />
         <entry key="..\:/Users/User/AndroidStudioProjects/WSRFood/app/src/main/res/layout/activity_launch_screen.xml" value="0.264" />
         <entry key="..\:/Users/User/AndroidStudioProjects/WSRFood/app/src/main/res/layout/activity_login.xml" value="0.13125" />
-        <entry key="..\:/Users/User/AndroidStudioProjects/WSRFood/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/WSRFood/app/src/main/res/layout/activity_main.xml" value="0.264" />
         <entry key="..\:/Users/User/AndroidStudioProjects/WSRFood/app/src/main/res/layout/activity_on_boarding_screen.xml" value="0.6" />
         <entry key="..\:/Users/User/AndroidStudioProjects/WSRFood/app/src/main/res/layout/activity_sign_in_screen.xml" value="0.264" />
         <entry key="..\:/Users/User/AndroidStudioProjects/WSRFood/app/src/main/res/layout/activity_sign_up_screen.xml" value="0.2" />

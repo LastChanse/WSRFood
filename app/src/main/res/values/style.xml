@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="EditText"> <!-- Не подключен. Можно удалить. -->
+        <item name="android:textColorSecondary">@color/black</item>
+        <item name="android:width">10dp</item>
+    </style>
+</resources>

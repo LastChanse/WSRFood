@@ -16,18 +16,28 @@
         android:usesCleartextTraffic="true" >
         <activity
             android:name=".SignInScreenActivity"
+            android:screenOrientation="portrait"
+            android:noHistory="true"
             android:exported="false" />
         <activity
             android:name=".SignUpScreenActivity"
+            android:screenOrientation="portrait"
+            android:noHistory="true"
             android:exported="false" />
         <activity
             android:name=".OnBoardingScreenActivity"
+            android:screenOrientation="portrait"
+            android:noHistory="true"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
+            android:screenOrientation="portrait"
+            android:noHistory="true"
             android:exported="false" />
         <activity
             android:name=".LaunchScreenActivity"
+            android:screenOrientation="portrait"
+            android:noHistory="true"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
