@@ -14,6 +14,15 @@ public class MenuItem {
         this.iconResource = iconResource;
     }
 
+    public MenuItem(String category, String nameDish, int price, int iconResource) {
+        this.dishId = dishId;
+        this.category = category;
+        this.nameDish = nameDish;
+        this.price = price;
+        this.iconResource = iconResource;
+        this.version = version;
+    }
+
     public MenuItem(int dishId, String category, String nameDish, int price, int iconResource, String version) {
         this.dishId = dishId;
         this.category = category;

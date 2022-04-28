@@ -4,19 +4,29 @@
     android:fillAfter="true"
     android:interpolator="@android:anim/accelerate_decelerate_interpolator"
     android:shareInterpolator="false" >
-    <!-- Анимация: появление с лева ОБРАТНО
+    <!-- Анимация: появление поиска с права (наоборот)
         Длительность: 0,5 секунд
         Заполнить после анимации: Да (true)
         Интерполятор: Ускорения и замедления
         Поделиться интерполятором: Нет (false)
-        -->
-    <!--Движение
-    От позиции по X: С изначального положения объекта
-    До позиции по X: До половины от длины объекта в лево
     -->
-    <translate
-        android:fromXDelta="0%p"
-        android:toXDelta="-50%p" />
+    <!--Шкалирование(изменение размеров)
+        Длительность: 1 секунда
+        От размера по X: 100%
+        От размера по Y: 100%
+        Поворот X: 100%
+        Поворот Y: 100%
+        До размера по X: 10%
+        До размера по Y: 100%
+        -->
+    <scale
+        android:duration="1000"
+        android:fromXScale="1.0"
+        android:fromYScale="1.0"
+        android:pivotX="100%"
+        android:pivotY="100%"
+        android:toXScale="0.1"
+        android:toYScale="1.0" />
     <!--Прозрачность
     От не прозрачности: 100%
     До не прозрачности: 0%

@@ -23,10 +23,19 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Scanner;
+
 @SuppressLint("CustomSplashScreen")
 public class LaunchScreenActivity extends AppCompatActivity {
 
     public final String[] resIs = {""}; // Переменная для хранения ответа от сервера
+
+    public static String version = new String(); // Переменная хранящая версии
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +98,29 @@ public class LaunchScreenActivity extends AppCompatActivity {
             // Функция подключения к серверу
             public boolean tryGetVersion() throws JSONException {
 
+                File internalStorageDir = getFilesDir(); // Получаем путь для хранения локальных данных
+
+                File versions = new File(internalStorageDir, "versions.txt"); // Создаём файл для хранения локальных данных
+
+                try (FileReader reader = new FileReader(internalStorageDir+"/versions.txt")) { // Чтение файла
+                    // читаем построчно
+                    Scanner reader_text = new Scanner(reader); // Создаём сканер
+                    version = reader_text.nextLine(); // Записываем первую строку файла в переменную версий
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                /*try {
+                    if (versions.exists()) { // Если файл существует
+                        if ((version.equals("") || version.isEmpty())) { // И переменная версий не пустая
+
+                        }
+                        versions.createNewFile();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }*/
+
                 String url = "https://food.madskill.ru/dishes/version";
 
                 RequestQueue requestQueue = Volley.newRequestQueue(LaunchScreenActivity.this);
@@ -98,13 +130,26 @@ public class LaunchScreenActivity extends AppCompatActivity {
                         error -> resIs[0] = error.getMessage()
                 ); // Инструкция по выполнению в случае ошибок или успешного получения ответа
                 requestQueue.add(request); // Отправка запроса
-                if (resIs[0].equals("") && resIs[0].substring(0,0).equals("j")) { // Когда сервер ответил или произошла ошибка
+
+                if (resIs[0].equals("") && resIs[0].substring(0, 0).equals("j")) { // Когда сервер ответил или произошла ошибка
                     makeMessageOnScreen("Ошибка подключения к серверу"); // Выводим сообщение на экран
                 }
-                    for (int i = 0; i < 10; i++) { // Пока сервер не ответит в течении 10 секунд
+                for (int i = 0; i < 10; i++) { // Пока сервер не ответит в течении 10 секунд
                     Log.println(Log.INFO, "INFO", "Waiting request."); // Данная строка распугивает баги
-                    if (!resIs[0].equals("") && !resIs[0].substring(0,1).equals("j")) { // Когда сервер ответил без ошибок
-                        Log.println(Log.INFO, "INFO", resIs[0]); // Данная строка тоже распугивает баги я не шучу!
+                    if (!resIs[0].equals("") && !resIs[0].substring(0, 1).equals("j")) { // Когда сервер ответил без ошибок
+                        Log.println(Log.INFO, "INFO", resIs[0]); // Выводим полученный результат в логи
+                        // Если локальные версии меню не совпадают с глобальными, то обновляем версии
+                        if (!resIs[0].equals(version)) {
+                            try { // Запись полученного результата в файл
+                                // Создаём поток вывода файла
+                                FileOutputStream fos = new FileOutputStream(versions);
+                                // Записываем строку в файл
+                                fos.write(resIs[0].getBytes());
+                                // Закрываем поток вывода файла
+                                fos.close();
+                            } catch (Exception e) {
+                            }
+                        }
                         return true; // Подключение успешно
                     } else {
                         try {
