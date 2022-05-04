@@ -33,6 +33,8 @@
         <entry key="..\:/Users/User/AndroidStudioProjects/WSRFood/app/src/main/res/xml-mnc001/network_security_config.xml" value="0.1" />
         <entry key="..\:/Users/User/AndroidStudioProjects/WSRFood/app/src/main/res/xml/network_security_config.xml" value="0.10104166666666667" />
         <entry key="..\:/Users/User/AppData/Local/Android/Sdk/platforms/android-32/data/res/layout/simple_list_item_1.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_launch_activity_background.xml" value="0.2365" />
+        <entry key="app/src/main/res/layout/activity_launch_screen.xml" value="0.25" />
       </map>
     </option>
   </component>

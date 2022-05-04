@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -24,6 +25,7 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
@@ -35,12 +37,34 @@ public class LaunchScreenActivity extends AppCompatActivity {
 
     public final String[] resIs = {""}; // Переменная для хранения ответа от сервера
 
-    public static String version = new String(); // Переменная хранящая версии
+    public static String version = new String(""); // Переменная хранящая версии
+
+    boolean versionExists = false; // Переменная наличия версий
+
+    File internalStorageDir;
+
+    FileReader reader; // Создаём поток вывода для чтения из файла
+
+    File versions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Разворачиваем страницу на весь экран
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_launch_screen);
+
+        internalStorageDir = getFilesDir(); // Получаем путь для хранения локальных данных
+
+        versions = new File(internalStorageDir, "versions.csv"); // Создаём файл для хранения локальных данных
+
+            try { // Настраиваем поток вывода для чтения версий
+                reader = new FileReader(internalStorageDir + "/versions.csv");
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+
+        versionExists = ifLocalVersionsExists();
 
         ImageView img = findViewById(R.id.loading); // Привязываемся к изображению загрузки на экране
         // создаем анимацию
@@ -59,11 +83,18 @@ public class LaunchScreenActivity extends AppCompatActivity {
                             img.clearAnimation(); // Отключение анимации
                             check = 1; // Переход к проверке наличия интернета
                             makeMessageOnScreen("Ошибка подключения к интернету");
+                            if (versionExists) { //  Если существуют локальные данные
+                                makeMessageOnScreen("Загрузка локальных данных");
+                                // Переход на приветственный экран
+                                startActivity(new Intent(LaunchScreenActivity.this, OnBoardingScreenActivity.class));
+                            }
                         } else {
                             // Если интернет есть, то попытаться подключится к серверку
                             try { // Попытка подключения к серверку
                                 if (tryGetVersion()) { // Если удалось получить ответ
                                     check = 3; // Выход из цикла
+
+                                    versionExists = ifLocalVersionsExists();
 
                                     // Переход на приветственный экран
                                     startActivity(new Intent(LaunchScreenActivity.this, OnBoardingScreenActivity.class));
@@ -97,29 +128,6 @@ public class LaunchScreenActivity extends AppCompatActivity {
 
             // Функция подключения к серверу
             public boolean tryGetVersion() throws JSONException {
-
-                File internalStorageDir = getFilesDir(); // Получаем путь для хранения локальных данных
-
-                File versions = new File(internalStorageDir, "versions.txt"); // Создаём файл для хранения локальных данных
-
-                try (FileReader reader = new FileReader(internalStorageDir+"/versions.txt")) { // Чтение файла
-                    // читаем построчно
-                    Scanner reader_text = new Scanner(reader); // Создаём сканер
-                    version = reader_text.nextLine(); // Записываем первую строку файла в переменную версий
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                /*try {
-                    if (versions.exists()) { // Если файл существует
-                        if ((version.equals("") || version.isEmpty())) { // И переменная версий не пустая
-
-                        }
-                        versions.createNewFile();
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }*/
 
                 String url = "https://food.madskill.ru/dishes/version";
 
@@ -175,5 +183,34 @@ public class LaunchScreenActivity extends AppCompatActivity {
             }
         };
         thread.start(); // Запуск потока
+    }
+
+    // Если есть локально сохранённые версии возвращает булевую истинну, иначе лож
+    public boolean ifLocalVersionsExists() {
+        if (updateLocalVersion()) { // Если файл существует
+            if (!(versions.equals("") || version.isEmpty())) { // Если переменная версий не пустая
+                return true; // Возвращаем истинну
+            } else { // Иначе
+                return false; // Возвращаем лож
+            }
+        } else { // Если файла не существует возвращаем лож
+            return false;
+        }
+    }
+
+    // Обновление переменной с версиями
+    public boolean updateLocalVersion() {
+        if (versions.exists()) { // Если файл существует
+            try { // Чтение файла
+                // читаем построчно
+                Scanner reader_text = new Scanner(reader); // Создаём сканер
+                version = reader_text.nextLine(); // Записываем первую строку файла в переменную версий
+            } catch (Exception e) { // В случае ошибок
+                e.printStackTrace(); // Вывод ошибок в консоль
+            }
+            return true;
+        } else {
+            return false;
+        }
     }
 }
