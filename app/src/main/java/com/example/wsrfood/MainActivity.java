@@ -5,9 +5,11 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -27,7 +29,12 @@ import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.flexbox.JustifyContent;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Locale;
+import java.util.Scanner;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -47,6 +54,18 @@ public class MainActivity extends AppCompatActivity {
     MenuItemAdapter item_adapter; // Адаптер для адаптации массива menuItems в recyclerView
     // Анимация для появления поиска
     Animation animation;
+    // Файлы
+    File internalStorageDir; // Переменная для хранения пути, где будут хранится локальные данные
+
+    FileReader readerVertions; // Создаём считыватель файлов для чтения из файла версий
+
+    FileReader readerMenu; // Создаём считыватель файлов для чтения из файла блюд
+
+    File versionsFile; // Переменная хранящая объект файла с данными о версиях блюд
+
+    File menuItemsFile; // Переменная хранящая объект файла с данными о блюдах
+
+    String menuItem = ""; // Временная переменная хранящая информацию об одном блюде в формате строки
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +73,42 @@ public class MainActivity extends AppCompatActivity {
         // Разворачиваем страницу на весь экран
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
+
+
+        // Работа с файлами -----------------------------------------------------------------------
+
+        internalStorageDir = getFilesDir(); // Получаем путь для хранения локальных данных
+
+        // Файл версий блюд <----------------------------------------------------------------------
+
+        versionsFile = new File(internalStorageDir, "versions.csv"); // Создаём объект файла для хранения локальных данных
+       if (!versionsFile.exists()) { // Если файл не существует
+                // Переход на экран загрузки
+                startActivity(new Intent(this, LaunchScreenActivity.class));
+       }
+
+        try { // Настраиваем считыватель файлов для чтения версий
+            readerVertions = new FileReader(internalStorageDir + "/versions.csv");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        // [конец] Файл версий блюд <--------------------------------------------------------------
+        // Файл блюд <-----------------------------------------------------------------------------
+
+        menuItemsFile = new File(internalStorageDir, "menuItems.csv"); // Создаём объект файла для хранения локальных данных
+        if (!menuItemsFile.exists()) {// Если файл не существует
+                // Переход на экран загрузки
+                startActivity(new Intent(this, LaunchScreenActivity.class));
+        }
+
+        try { // Настраиваем считыватель файлов для чтения версий
+            readerMenu = new FileReader(internalStorageDir + "/menuItems.csv");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        // [конец] Файл блюд <---------------------------------------------------------------------
+        // [конец] Работа с файлами ---------------------------------------------------------------
 
         // Привязки
         listSearchView = (ListView) findViewById(R.id.search_list); // Привязка к представлению поискового списка на экране
@@ -126,8 +181,9 @@ public class MainActivity extends AppCompatActivity {
 
     // Установка тестовых данных в массив блюд
     private void setInitialData() {
-        menuItems.add(new MenuItem("foods", LaunchScreenActivity.version, 0, R.drawable.dish_default_icon));
-        menuItems.add(new MenuItem("drinks", "1Veggie tomato mix", 1200, R.drawable.dish_default_icon));
+        menuItems.add(new MenuItem("Foods", LaunchScreenActivity.version, 50, R.drawable.launch_activity_background_old));
+        menuItems.add(new MenuItem("Foods", menuItem, 50, R.drawable.dish_default_icon));
+        /*menuItems.add(new MenuItem("drinks", "1Veggie tomato mix", 1200, R.drawable.dish_default_icon));
         menuItems.add(new MenuItem("snacks", "2Egg and cucmber...", 1200, R.drawable.dish_default_icon));
         menuItems.add(new MenuItem("sauce", "3Veggie tomato mix", 1200, R.drawable.dish_default_icon));
         menuItems.add(new MenuItem("foods", "4Egg and cucmber...", 1200, R.drawable.dish_default_icon));
@@ -151,7 +207,43 @@ public class MainActivity extends AppCompatActivity {
         menuItems.add(new MenuItem("foods", "8Pizza", 1200, R.drawable.dish_default_icon));
         menuItems.add(new MenuItem("foods", "9Pizza ultra mix", 1200, R.drawable.dish_default_icon));
         menuItems.add(new MenuItem("foods", "8Pizza", 1200, R.drawable.dish_default_icon));
-        menuItems.add(new MenuItem("foods", "9Pizza ultra mix", 1200, R.drawable.dish_default_icon));
+        menuItems.add(new MenuItem("foods", "9Pizza ultra mix", 1200, R.drawable.dish_default_icon));*/
+        // Чтение из файла
+        if (menuItemsFile.exists()) { // Если файл существует
+            try { // Чтение файла
+                try { // Настраиваем считыватель файлов для чтения версий
+                    readerMenu = new FileReader(internalStorageDir + "/menuItems.csv");
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                // читаем построчно
+                Scanner reader_text = new Scanner(readerMenu); // Создаём сканер
+                while (reader_text.hasNextLine()) {
+                    menuItem = reader_text.nextLine(); // Записываем строку файла во временную переменную блюдо
+                    /*.println(Log.ERROR, "API",
+                            "category: "+menuItem.split(",")[1]);
+                    Log.println(Log.ERROR, "API",
+                            "name: "+menuItem.split(",")[2]);
+                    Log.println(Log.ERROR, "API",
+                            "price: "+menuItem.split(",")[3]);
+                    Log.println(Log.ERROR, "API",
+                            "drawable: "+menuItem.split(",")[4]);
+                    Log.println(Log.ERROR, "API",
+                            "end");*/
+                    menuItems.add(new MenuItem(
+                            menuItem.split(",")[1],
+                            menuItem.split(",")[2],
+                            Integer.decode(menuItem.split(",")[3]),
+                            getApplicationContext().getResources().getIdentifier(menuItem.split(",")[4], "drawable", getApplicationContext().getPackageName())));
+                }
+            } catch (Exception e) { // В случае ошибок
+                e.printStackTrace(); // Вывод ошибок в консоль
+            }
+        } else { // Если файл не существует выводим информацию в логи
+            Log.println(Log.ERROR, "INFO", "updateLocalVersion: File don,t exists!");
+            // Переход на экран загрузки
+            startActivity(new Intent(this, LaunchScreenActivity.class));
+        }
     }
 
     /*    >>Работа с поиском и категориями<<    */
@@ -162,7 +254,7 @@ public class MainActivity extends AppCompatActivity {
     private void updateSearchListOnCategoriesInMenuItem(ArrayList<MenuItem> menuItems, RadioGroup radioGroupCategories) {
         currentRadioButton = (RadioButton) findViewById(radioGroupCategories.getCheckedRadioButtonId()); // Получаем кнопку текущей категории
         changeMenuItemOnCategory( //
-                currentRadioButton.getText().toString().toLowerCase());
+                currentRadioButton.getText().toString());
         listSearch = new ArrayList<>();
         for (int j = 0; j < menuItems.size(); j++) {
             listSearch.add(menuItems.get(j).getNameDish());
@@ -203,22 +295,22 @@ public class MainActivity extends AppCompatActivity {
 
     /*    >>Категории<<    */
     public void foods(View view) { // При нажатии на кнопку категории пища
-        changeMenuItemOnCategory("foods"); // Обновляем и загружаем блюда введённой категории
+        changeMenuItemOnCategory("Foods"); // Обновляем и загружаем блюда введённой категории
         updateSearchListOnCategoriesInMenuItem(menuItems, radioGroupCategories); // Обновляем поисковой список
     }
 
     public void drinks(View view) { // При нажатии на кнопку категории напитки
-        changeMenuItemOnCategory("drinks"); // Обновляем и загружаем блюда введённой категории
+        changeMenuItemOnCategory("Drinks"); // Обновляем и загружаем блюда введённой категории
         updateSearchListOnCategoriesInMenuItem(menuItems, radioGroupCategories);
     }
 
     public void snacks(View view) { // При нажатии на кнопку категории закуски
-        changeMenuItemOnCategory("snacks"); // Обновляем и загружаем блюда введённой категории
+        changeMenuItemOnCategory("Snacks"); // Обновляем и загружаем блюда введённой категории
         updateSearchListOnCategoriesInMenuItem(menuItems, radioGroupCategories); // Обновляем поисковой список
     }
 
     public void sauce(View view) { // При нажатии на кнопку категории соусы
-        changeMenuItemOnCategory("sauce"); // Обновляем и загружаем блюда введённой категории
+        changeMenuItemOnCategory("Sauce"); // Обновляем и загружаем блюда введённой категории
         updateSearchListOnCategoriesInMenuItem(menuItems, radioGroupCategories); // Обновляем поисковой список
     }
 
